@@ -1,0 +1,13 @@
+# Ignore devbox files
+/.devbox
+
+# Ignore backup files
+/backups/**
+!/backups/**/
+
+# Ingore data (world) files
+/data/**
+!/data/**/
+
+# Always include .keep files
+!.keep

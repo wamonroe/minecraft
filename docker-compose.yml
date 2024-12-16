@@ -1,0 +1,103 @@
+x-server-env: &server-env
+  # User and group ids that own the files
+  # Use `id -u` and `id -g` to get your User ID and Group ID
+  GID: 20
+  UID: 501
+  # Default config
+  ENABLE_AUTOPAUSE: true
+  MAX_MEMORY: 4G
+  MAX_TICK_TIME: -1
+  # Default properties
+  ENABLE_WHITELIST: true
+  ENFORCE_WHITELIST: true
+  EULA: true
+  SPAWN_PROTECTION: 0
+
+x-backup-env: &backup-env
+  BACKUP_INTERVAL: "24h"
+  BACKUP_ON_STARTUP: false
+  INITIAL_DELAY: 0
+  PAUSE_IF_NO_PLAYERS: true
+  PRUNE_BACKUPS_COUNT: 4
+  PRUNE_BACKUPS_DAYS: -1
+
+services:
+  # Use mc-router to run multiple servers on the same external port
+  mc_router: 
+    image: itzg/mc-router
+    restart: always
+    depends_on:
+      - familycraft_25
+      - adventurecraft_25
+    environment:
+      MAPPING: |
+        familycraft_25.minecraft.local=familycraft_25:25565
+        adventurecraft_25.minecraft.local=adventurecraft_25:25565
+    ports:
+      - "25565:25565"
+
+  # Familycraft 2024-2025 server (1.20.1)
+  # familycraft_25.minecraft.local
+  familycraft_25:
+    image: itzg/minecraft-server
+    restart: unless-stopped
+    environment:
+      <<: *server-env
+      # Server version and modpack
+      MODPACK_PLATFORM: MODRINTH
+      MODRINTH_MODPACK: /modpacks/Familycraft 25 1.1.2.mrpack
+      VERSION: 1.20.1
+      # Server properties
+      DIFFICULTY: hard
+      MOTD: "Familycraft 2025"
+      PVP: false
+      SEED: -2330895609155840908
+    volumes:
+      - ./data/familycraft_25:/data
+      - ./modpacks:/modpacks:ro
+
+  backup_familycraft_25:
+    image: itzg/mc-backup
+    restart: always
+    depends_on:
+      familycraft_25:
+        condition: service_healthy
+    environment:
+      <<: *backup-env
+      RCON_HOST: familycraft_25
+    volumes:
+      - ./data/familycraft_25:/data:ro
+      - ./backups/familycraft_25:/backups
+
+  # Adventurecraft 2024-2025 server (1.20.1)
+  # adventurecraft_25.minecraft.local
+  adventurecraft_25:
+    image: itzg/minecraft-server
+    restart: unless-stopped
+    environment:
+      <<: *server-env
+      # Server version and modpack
+      MODPACK_PLATFORM: MODRINTH
+      MODRINTH_MODPACK: /modpacks/Adventurecraft 25 1.1.0.mrpack
+      VERSION: 1.20.1
+      # Server properties
+      DIFFICULTY: normal
+      MOTD: "Adventure Craft RPG server"
+      PVP: true
+      SEED: -2213313750197476254
+    volumes:
+      - ./data/adventurecraft_25:/data
+      - ./modpacks:/modpacks:ro
+
+  backup_adventurecraft_25:
+    image: itzg/mc-backup
+    restart: always
+    depends_on:
+      adventurecraft_25:
+        condition: service_healthy
+    environment:
+      <<: *backup-env
+      RCON_HOST: adventurecraft_25
+    volumes:
+      - ./data/adventurecraft_25:/data:ro
+      - ./backups/adventurecraft_25:/backups

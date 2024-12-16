@@ -1,0 +1,18 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
+  "packages": [
+    "colima@latest",
+    "docker@latest"
+  ],
+  "shell": {
+    "init_hook": [],
+    "scripts": {
+      "familycraft_25_console": [
+        "docker compose exec -i familycraft_25 rcon-cli"
+      ],
+      "adventurecraft_25_console": [
+        "docker compose exec -i adventurecraft_25 rcon-cli"
+      ]
+    }
+  }
+}
