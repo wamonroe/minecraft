@@ -27,77 +27,77 @@ services:
     image: itzg/mc-router
     restart: always
     depends_on:
-      - familycraft_25
-      - adventurecraft_25
+      - familycraft
+      - adventurecraft
     environment:
       MAPPING: |
-        familycraft_25.minecraft.local=familycraft_25:25565
-        adventurecraft_25.minecraft.local=adventurecraft_25:25565
+        familycraft.minecraft.monroepost.com=familycraft:25565
+        adventurecraft.minecraft.monroepost.com=adventurecraft:25565
     ports:
       - "25565:25565"
 
   # Familycraft 2024-2025 server (1.20.1)
-  # familycraft_25.minecraft.local
-  familycraft_25:
+  # familycraft.minecraft.monroepost.com
+  familycraft:
     image: itzg/minecraft-server
     restart: unless-stopped
     environment:
       <<: *server-env
       # Server version and modpack
       MODPACK_PLATFORM: MODRINTH
-      MODRINTH_MODPACK: /modpacks/Familycraft 25 1.1.2.mrpack
+      MODRINTH_MODPACK: /modpacks/Familycraft 25.1.2.mrpack
       VERSION: 1.20.1
       # Server properties
       DIFFICULTY: hard
-      MOTD: "Familycraft 2025"
+      MOTD: "Familycraft 2024-25 Server"
       PVP: false
       SEED: -2330895609155840908
     volumes:
-      - ./data/familycraft_25:/data
+      - ./data/familycraft:/data
       - ./modpacks:/modpacks:ro
 
-  backup_familycraft_25:
+  backup_familycraft:
     image: itzg/mc-backup
     restart: always
     depends_on:
-      familycraft_25:
+      familycraft:
         condition: service_healthy
     environment:
       <<: *backup-env
-      RCON_HOST: familycraft_25
+      RCON_HOST: familycraft
     volumes:
-      - ./data/familycraft_25:/data:ro
-      - ./backups/familycraft_25:/backups
+      - ./data/familycraft:/data:ro
+      - ./backups/familycraft:/backups
 
-  # Adventurecraft 2024-2025 server (1.20.1)
-  # adventurecraft_25.minecraft.local
-  adventurecraft_25:
+  # Adventure Craft 2024-2025 server (1.20.1)
+  # adventurecraft.minecraft.monroepost.com
+  adventurecraft:
     image: itzg/minecraft-server
     restart: unless-stopped
     environment:
       <<: *server-env
       # Server version and modpack
       MODPACK_PLATFORM: MODRINTH
-      MODRINTH_MODPACK: /modpacks/Adventurecraft 25 1.1.0.mrpack
+      MODRINTH_MODPACK: /modpacks/Adventure Craft 25.1.0.mrpack
       VERSION: 1.20.1
       # Server properties
       DIFFICULTY: normal
-      MOTD: "Adventure Craft RPG server"
+      MOTD: "Adventure Craft 2024-25 Server"
       PVP: true
       SEED: -2213313750197476254
     volumes:
-      - ./data/adventurecraft_25:/data
+      - ./data/adventurecraft:/data
       - ./modpacks:/modpacks:ro
 
-  backup_adventurecraft_25:
+  backup_adventurecraft:
     image: itzg/mc-backup
     restart: always
     depends_on:
-      adventurecraft_25:
+      adventurecraft:
         condition: service_healthy
     environment:
       <<: *backup-env
-      RCON_HOST: adventurecraft_25
+      RCON_HOST: adventurecraft
     volumes:
-      - ./data/adventurecraft_25:/data:ro
-      - ./backups/adventurecraft_25:/backups
+      - ./data/adventurecraft:/data:ro
+      - ./backups/adventurecraft:/backups
