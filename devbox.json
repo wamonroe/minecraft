@@ -7,11 +7,8 @@
   "shell": {
     "init_hook": [],
     "scripts": {
-      "familycraft_25_console": [
-        "docker compose exec -i familycraft_25 rcon-cli"
-      ],
-      "adventurecraft_25_console": [
-        "docker compose exec -i adventurecraft_25 rcon-cli"
+      "familycraft_console": [
+        "docker compose exec -i familycraft rcon-cli"
       ]
     }
   }

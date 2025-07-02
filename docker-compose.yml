@@ -28,15 +28,13 @@ services:
     restart: always
     depends_on:
       - familycraft
-      - adventurecraft
     environment:
       MAPPING: |
         familycraft.minecraft.monroepost.com=familycraft:25565
-        adventurecraft.minecraft.monroepost.com=adventurecraft:25565
     ports:
       - "25565:25565"
 
-  # Familycraft 2024-2025 server (1.20.1)
+  # Familycraft 2025-26 server (1.21.6)
   # familycraft.minecraft.monroepost.com
   familycraft:
     image: itzg/minecraft-server
@@ -45,15 +43,15 @@ services:
       <<: *server-env
       # Server version and modpack
       MODPACK_PLATFORM: MODRINTH
-      MODRINTH_MODPACK: /modpacks/Familycraft 25.1.2.mrpack
-      VERSION: 1.20.1
+      MODRINTH_MODPACK: /modpacks/Familycraft 26.0.0.mrpack
+      VERSION: 1.21.6
       # Server properties
       DIFFICULTY: hard
-      MOTD: "Familycraft 2024-25 Server"
+      MOTD: "Familycraft 2025-26 Server"
       PVP: false
-      SEED: -2330895609155840908
+      SEED: -3080464673497616365
     volumes:
-      - ./data/familycraft:/data
+      - ./data/familycraft26:/data
       - ./modpacks:/modpacks:ro
 
   backup_familycraft:
@@ -66,38 +64,5 @@ services:
       <<: *backup-env
       RCON_HOST: familycraft
     volumes:
-      - ./data/familycraft:/data:ro
-      - ./backups/familycraft:/backups
-
-  # Adventure Craft 2024-2025 server (1.20.1)
-  # adventurecraft.minecraft.monroepost.com
-  adventurecraft:
-    image: itzg/minecraft-server
-    restart: unless-stopped
-    environment:
-      <<: *server-env
-      # Server version and modpack
-      MODPACK_PLATFORM: MODRINTH
-      MODRINTH_MODPACK: /modpacks/Adventure Craft 25.1.0.mrpack
-      VERSION: 1.20.1
-      # Server properties
-      DIFFICULTY: normal
-      MOTD: "Adventure Craft 2024-25 Server"
-      PVP: true
-      SEED: -2213313750197476254
-    volumes:
-      - ./data/adventurecraft:/data
-      - ./modpacks:/modpacks:ro
-
-  backup_adventurecraft:
-    image: itzg/mc-backup
-    restart: always
-    depends_on:
-      adventurecraft:
-        condition: service_healthy
-    environment:
-      <<: *backup-env
-      RCON_HOST: adventurecraft
-    volumes:
-      - ./data/adventurecraft:/data:ro
-      - ./backups/adventurecraft:/backups
+      - ./data/familycraft26:/data:ro
+      - ./backups/familycraft26:/backups
