@@ -1,4 +1,7 @@
-#!/usr/bin/env zsh
+#!/usr/bin/env ruby
+# frozen_string_literal: true
 
-docker compose exec -i $1 rcon-cli
+require "bundler/setup"
+require "irb"
 
+IRB.start(__FILE__)
