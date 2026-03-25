@@ -1,6 +1,9 @@
 # Ignore devbox files
 /.devbox
 
+# Ignore generated .app bundle (rebuild with: make app)
+/dist/
+
 # Ignore backup files
 /backups/**
 !/backups/**/
