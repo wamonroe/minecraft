@@ -1,4 +1,4 @@
-set projectDir to "/Users/alex/Code/personal/minecraft"
+set projectDir to "~/Minecraft"
 
 tell application "Terminal"
 	activate
