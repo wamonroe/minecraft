@@ -1,0 +1,15 @@
+{
+  "[ruby]": {
+    "editor.defaultFormatter": "Shopify.ruby-lsp"
+  },
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.tabSize": 2,
+  "rubyLsp.customRubyCommand": "eval \"$(devbox shellenv)\"",
+  "rubyLsp.formatter": "standard",
+  "rubyLsp.linters": [
+    "standard"
+  ],
+  "rubyLsp.rubyVersionManager": {
+    "identifier": "custom"
+  },
+}

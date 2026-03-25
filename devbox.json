@@ -1,14 +1,28 @@
 {
   "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.13.7/.schema/devbox.schema.json",
-  "packages": [
-    "colima@latest",
-    "docker@latest"
-  ],
+  "packages": {
+    "git":    "latest",
+    "ruby":   "latest",
+    "libyaml": {
+      "version": "latest",
+      "outputs": ["out", "dev"]
+    }
+  },
   "shell": {
     "init_hook": [],
     "scripts": {
-      "familycraft_console": [
-        "docker compose exec -i familycraft rcon-cli"
+      "console": [
+        "ruby lib/console.rb"
+      ],
+      "restart-proxy": [
+        "docker compose restart mc_router"
+      ],
+      "setup": [
+        "bundle install"
+      ],
+      "update-modpack": [
+        "git pull --ff-only",
+        "ruby lib/update_modpack.rb"
       ]
     }
   }
