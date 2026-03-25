@@ -5,7 +5,9 @@ require_relative "profile"
 
 module UpdateModpack
   class ProfileSelector
-    def initialize(prompt)
+    attr_reader :prompt
+
+    def initialize(prompt:)
       @prompt = prompt
     end
 
@@ -18,7 +20,7 @@ module UpdateModpack
         .sort
       abort "error: no profiles found in #{PROFILES_DIR}" if names.empty?
 
-      name = (names.size == 1) ? names.first : @prompt.select("Select a local profile to update:", names)
+      name = (names.size == 1) ? names.first : prompt.select("Select a local profile to update:", names)
       puts "Selected profile: #{name}"
       Profile.new(name)
     end
