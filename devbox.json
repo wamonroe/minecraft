@@ -21,6 +21,7 @@
         "bundle install"
       ],
       "update-modpack": [
+        "git checkout -- devbox.lock",
         "git pull --ff-only",
         "ruby lib/update_modpack.rb"
       ]
