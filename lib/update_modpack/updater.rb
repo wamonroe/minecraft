@@ -8,10 +8,10 @@ require_relative "update/clear_managed_dirs"
 
 module UpdateModpack
   class Updater
-    attr_reader :pack, :profile, :prompt
+    attr_reader :modpack, :profile, :prompt
 
-    def initialize(pack:, profile:, prompt:)
-      @pack = pack
+    def initialize(modpack:, profile:, prompt:)
+      @modpack = modpack
       @profile = profile
       @prompt = prompt
     end
@@ -20,13 +20,13 @@ module UpdateModpack
       Dir.mktmpdir do |work_dir|
         @work_dir = work_dir
 
-        puts "\nUpdating #{pack.name}..."
+        puts "\nUpdating #{modpack.name}..."
 
         Update::ClearManagedDirs.call(profile:)
         Update::Downloader.call(files:, profile_dir: profile.dir)
         Update::OverrideApplier.call(overrides_dir:, profile_dir: profile.dir, prompt:)
       end
-      puts "\nDone. Profile '#{profile.name}' updated from '#{pack.name}'."
+      puts "\nDone. Profile '#{profile.name}' updated from '#{modpack.name}'."
     end
 
     def self.call(...)
@@ -38,7 +38,7 @@ module UpdateModpack
     attr_reader :work_dir
 
     def extracted
-      @extracted ||= Update::Extractor.call(modpack: pack, work_dir:)
+      @extracted ||= Update::Extractor.call(modpack:, work_dir:)
     end
 
     def files

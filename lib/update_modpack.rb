@@ -12,6 +12,6 @@ require_relative "update_modpack/updater"
 
 prompt = TTY::Prompt.new(interrupt: :exit)
 
-pack = UpdateModpack::ModpackSelector.call(prompt:)
-profile = UpdateModpack::ProfileSelector.call(prompt:)
-UpdateModpack::Updater.call(pack:, profile:, prompt:)
+modpack = UpdateModpack::ModpackSelector.call(prompt:)
+profile = UpdateModpack::ProfileSelector.call(prompt:, modpack:)
+UpdateModpack::Updater.call(modpack:, profile:, prompt:)
