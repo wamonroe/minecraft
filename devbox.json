@@ -24,6 +24,11 @@
         "git checkout -- devbox.lock",
         "git pull --ff-only",
         "ruby lib/update_modpack.rb"
+      ],
+      "update-server": [
+        "OLD_HEAD=$(git rev-parse HEAD)",
+        "git pull --ff-only",
+        "git diff --name-only $OLD_HEAD HEAD | grep -q 'docker-compose.yml' && docker compose down && docker compose up -d || true"
       ]
     }
   }
