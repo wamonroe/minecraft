@@ -43,7 +43,7 @@ services:
       <<: *server-env
       # Server version and modpack
       MODPACK_PLATFORM: MODRINTH
-      MODRINTH_MODPACK: /modpacks/Adventurecraft 26.2.0.mrpack
+      MODRINTH_MODPACK: /modpacks/Adventurecraft 26.2.1.mrpack
       VERSION: 1.21.1
       # Server properties
       DIFFICULTY: hard
