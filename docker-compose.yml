@@ -28,13 +28,15 @@ services:
     restart: always
     depends_on:
       - adventurecraft
+      - skyblock
     environment:
       MAPPING: |
         adventurecraft.monroepost.com=adventurecraft:25565
+        skyblock.monroepost.com=skyblock:25565
     ports:
       - "25565:25565"
 
-  # Familycraft 2025-26 server (1.21.6)
+  # Adventurecraft 2026 server (1.21.6)
   # adventurecraft.monroepost.com
   adventurecraft:
     image: itzg/minecraft-server
@@ -47,13 +49,30 @@ services:
       VERSION: 1.21.1
       # Server properties
       DIFFICULTY: hard
-      MOTD: "Familycraft 2025-26 Server"
+      MOTD: "Adventurecraft 2026 Server"
       PVP: true
       SEED: 2149235438587265695
       VANILLATWEAKS_SHARECODE: dtk1Gx,mzaofc
     volumes:
       - ./data/adventurecraft26:/data
       - ./modpacks:/modpacks:ro
+
+  # Skyblock 2026 server (1.21.6)
+  # skyblock.monroepost.com
+  skyblock:
+    image: itzg/minecraft-server
+    restart: unless-stopped
+    environment:
+      <<: *server-env
+      # Server type and version
+      TYPE: PAPER
+      VERSION: 26.1.2
+      # Server properties
+      MOTD: "Skyblock 2026 Server"
+      PVP: false
+    volumes:
+      - ./data/skyblock26:/data
+      - ./plugins/skyblock26:/plugins:ro
 
   backup_adventurecraft:
     image: itzg/mc-backup
@@ -67,3 +86,16 @@ services:
     volumes:
       - ./data/adventurecraft26:/data:ro
       - ./backups/adventurecraft26:/backups
+
+  backup_skyblock:
+    image: itzg/mc-backup
+    restart: always
+    depends_on:
+      skyblock:
+        condition: service_healthy
+    environment:
+      <<: *backup-env
+      RCON_HOST: skyblock
+    volumes:
+      - ./data/skyblock26:/data:ro
+      - ./backups/skyblock26:/backups
