@@ -70,6 +70,7 @@ services:
       # Server properties
       MOTD: "Skyblock 2026 Server"
       PVP: false
+      VANILLATWEAKS_SHARECODE: HXD6cw
     volumes:
       - ./data/skyblock26:/data
       - ./plugins/skyblock26:/plugins:ro
